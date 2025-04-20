@@ -1,0 +1,29 @@
+name: Codespace Setup
+
+on:
+  codespaces:
+    - created
+    - opened
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: Setup ngrok config
+        run: |
+          echo "Starting ngrok configuration..."
+          mkdir -p ~/.ngrok2
+          echo "version: 2" > ~/.ngrok2/config.yml
